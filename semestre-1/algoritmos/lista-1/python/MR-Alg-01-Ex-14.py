@@ -7,4 +7,4 @@ l = (l1 + l2 + l3)/2
 
 area = (l * (l - l1) * (l - l2) * (l - l3))**.5
 
-print(f"Área do triângulo: {area} cm²")
+print(f"Área do triângulo: {area:.2f} cm²")

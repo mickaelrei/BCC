@@ -3,4 +3,4 @@ h = float(input("Digite a altura do triângulo (em cm): "))
 
 area = b * h / 2
 
-print(f"Área do triângulo = {area}cm²")
+print(f"Área do triângulo = {area:.2f}cm²")
