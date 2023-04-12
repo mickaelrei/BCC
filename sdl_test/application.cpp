@@ -36,10 +36,6 @@ Application::Application(int _width, int _height, int _board_cols, int _board_ro
 
     // Create conway board
     board = ConwayBoard(_board_cols, _board_rows);
-
-    angle = 0.0;
-    centerX = width / 2;
-    centerY = height / 2;
 }
 
 Application::~Application() {
@@ -77,7 +73,6 @@ void Application::loop() {
 void Application::update() {
     // Update conway board
     board.update();
-    angle += .1;
     SDL_Delay(1000 / 3);
 }
 
