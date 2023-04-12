@@ -1,26 +1,45 @@
 #include "application.hpp"
 #include <iostream>
 #include <stdlib.h>
+#include <math.h>
 
 Application::Application(int _width, int _height, int _board_cols, int _board_rows) {
-    // if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-    //     std::cout << "Error initializing video: " << SDL_GetError() << std::endl;
-    // }
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
+    }
 
+    // Save width and height
     width = _width;
     height = _height;
 
-    // window = SDL_CreateWindow(
-    //     "SDL Window",
-    //     SDL_WINDOWPOS_CENTERED,
-    //     SDL_WINDOWPOS_CENTERED,
-    //     width, height, 0);
+    // Create window
+    window = SDL_CreateWindow(
+        "SDL Window",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width, height, 0);
+    if (window == NULL) {
+        std::cout << "Error creating window: " << SDL_GetError() << std::endl;
+    }
 
-    // surface = SDL_GetWindowSurface(window);
-    // renderer = SDL_CreateRenderer(window, -1, 0);
+    // Get window surface
+    surface = SDL_GetWindowSurface(window);
+    if (surface == NULL) {
+        std::cout << "Error getting window surface: " << SDL_GetError() << std::endl;
+    }
+
+    // Create renderer
+    renderer = SDL_CreateRenderer(window, -1, 0);
+    if (renderer == NULL) {
+        std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
+    }
 
     // Create conway board
     board = ConwayBoard(_board_cols, _board_rows);
+
+    angle = 0.0;
+    centerX = width / 2;
+    centerY = height / 2;
 }
 
 Application::~Application() {
@@ -32,19 +51,25 @@ Application::~Application() {
 void Application::loop() {
     bool running = true;
     while (running) {
-        // SDL_Event event;
+        SDL_Event event;
  
-        // // Events management
-        // while (SDL_PollEvent(&event)) {
-        //     switch (event.type) {
-        //         case SDL_QUIT:
-        //             // handling of close button
-        //             running = false;
-        //             break;
-        //     }
-        // }
+        // Events management
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    // handling of close button
+                    running = false;
+                    break;
+                case SDL_KEYDOWN:
+                    switch (event.key.keysym.sym) {
+                        case SDLK_e:
+                            std::cout << "Updating" << std:: endl;
+                            update();
+                    }
+            }
+        }
 
-        update();
+        // update();
         draw();
     }
 }
@@ -52,7 +77,8 @@ void Application::loop() {
 void Application::update() {
     // Update conway board
     board.update();
-    // SDL_Delay(1000 / 60);
+    angle += .1;
+    SDL_Delay(1000 / 3);
 }
 
 void ClearScreen(SDL_Renderer *renderer) {
@@ -61,40 +87,30 @@ void ClearScreen(SDL_Renderer *renderer) {
 }
 
 void Application::draw() {
-    system("cls");
+    ClearScreen(renderer);
+
+    // Draw all cells from board
+    SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
     for (int y = 0; y < board.rows; y++) {
         for (int x = 0; x < board.cols; x++) {
-            int state = board.GetCellAt(x, y);
-            if (state == 1) {
-                std::cout << "#";
-            } else {
-                std::cout << " ";
+            // Get value and rect from cell
+            int cellValue = board.GetCellAt(x, y);
+            SDL_Rect cellRect = board.GetCellRect(width, height, x, y);
+
+            // Paint only if cell is 1
+            if (cellValue == 1) {
+                SDL_RenderFillRect(renderer, &cellRect);
             }
+
+            // std::cout << cellValue ? "#" : " ";
         }
 
-        std::cout << std::endl;
+        // std::cout << std::endl;
     }
 
-    // ClearScreen(renderer);
-
-    // // Draw all cells from board
-    // for (int x = 0; x < board.cols; x++) {
-    //     for (int y = 0; y < board.rows; y++) {
-    //         // Get value and rect from cell
-    //         int cellValue = board.GetCellAt(x, y);
-    //         SDL_Rect cellRect = board.GetCellRect(width, height, x, y);
-
-    //         // Change color based on cell value
-    //         if (cellValue == 0) {
-    //             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    //         } else {
-    //             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //         }
-
-    //         // Render rect
-    //         SDL_RenderFillRect(renderer, &cellRect);
-    //     }
+    // for (int i = 0; i < 3; i++) {
+    //      std::cout << std::endl;
     // }
 
-    // SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer);
 }

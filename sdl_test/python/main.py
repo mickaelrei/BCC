@@ -22,9 +22,7 @@ class ConwayBoard:
         self.next_board = [0] * cols * rows
         self.current_board = [0] * cols * rows
         for i in range(cols * rows):
-            if random.random() < .5:
-                self.current_board[i] = 0
-                self.next_board[i] = random.randint(0, 1)
+            self.current_board[i] = random.randint(0, 1) 
 
     def getIndexFromCoord(self, x: int, y: int):
         return y * self.cols + x
@@ -105,8 +103,6 @@ class ConwayBoard:
                 yPos = h * y
                 if value == 1:
                     pygame.draw.rect(window, (200, 200, 200), (xPos, yPos, w, h))
-                else:
-                    pygame.draw.rect(window, BLACK, (xPos, yPos, w, h))
 
 app = ConwayBoard(20, 20)
 app.loop()

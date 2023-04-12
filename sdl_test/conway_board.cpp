@@ -20,8 +20,8 @@ ConwayBoard::ConwayBoard(int _cols, int _rows) {
     current_board = new int[size];
     next_board = new int[size];
     for (int i = 0; i < size; i++) {
-        next_board[i] = rand() % 2;
-        current_board[i] = 0;
+        next_board[i] = 0;
+        current_board[i] = rand() % 2;
     }
 }
 
@@ -59,8 +59,10 @@ std::vector<int> ConwayBoard::GetNeighbors(int x, int y) {
     std::vector<int> neighbors = std::vector<int>();
 
     // Get all neighbors
-    for (int nx = -1; nx <= 1; nx ++) {
+    for (int nx = -1; nx <= 1; nx++) {
         for (int ny = -1; ny <= 1; ny++) {
+            if (nx == 0 && ny == 0) continue;
+            
             // Get new coord
             int dx = x + nx;
             int dy = y + ny;
@@ -74,6 +76,7 @@ std::vector<int> ConwayBoard::GetNeighbors(int x, int y) {
 
             // Add neighbor value to list
             neighbors.push_back(current_board[idx]);
+            std::cout << "Adding to list: " << current_board[idx] << std::endl;
         }
     }
 
@@ -82,20 +85,19 @@ std::vector<int> ConwayBoard::GetNeighbors(int x, int y) {
 
 void ConwayBoard::update() {
     // Update next_board based on current_board
-    for (int x = 0; x < cols; x++) {
-        for (int y = 0; y < rows; y++) {
+    for (int y = 0; y < rows; y++) {
+        for (int x = 0; x < cols; x++) {
             // Get neighbors
             std::vector<int> neighbors = ConwayBoard::GetNeighbors(x, y);
 
             // Get count of alive and dead neighbors
-            int countAlive, countDead;
+            int countAlive = 0;
             for (int i = 0; i < neighbors.size(); i++) {
-                if (neighbors[i] == 0) {
-                    countDead++;
-                } else {
+                if (neighbors[i] == 1) {
                     countAlive++;
                 }
             }
+            std::cout << "Cell (" << x << ", " << y << "), Size=" << neighbors.size() << ", Alive=" << countAlive << std::endl;
 
             // Get current state of this cell
             int cellIdx = ConwayBoard::GetIndexFromCoord(x, y);

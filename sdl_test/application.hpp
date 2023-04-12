@@ -16,4 +16,6 @@ class Application {
         SDL_Surface *surface;
         SDL_Renderer *renderer;
         ConwayBoard board;
+        double angle;
+        int centerX, centerY;
 };
