@@ -41,7 +41,7 @@ int ConwayBoard::GetCellAt(int x, int y) {
 
 int ConwayBoard::CheckCell(int x, int y, int countAlive) {
     int idx = GetIndexFromCoord(x, y);
-    if (current_board[idx] == 1) {
+    if (current_board[idx] != 0) {
         if (countAlive == 2 or countAlive == 3) {
             return 1;
         }
@@ -76,7 +76,6 @@ std::vector<int> ConwayBoard::GetNeighbors(int x, int y) {
 
             // Add neighbor value to list
             neighbors.push_back(current_board[idx]);
-            std::cout << "Adding to list: " << current_board[idx] << std::endl;
         }
     }
 
@@ -93,11 +92,10 @@ void ConwayBoard::update() {
             // Get count of alive and dead neighbors
             int countAlive = 0;
             for (int i = 0; i < neighbors.size(); i++) {
-                if (neighbors[i] == 1) {
+                if (neighbors[i] != 0) {
                     countAlive++;
                 }
             }
-            std::cout << "Cell (" << x << ", " << y << "), Size=" << neighbors.size() << ", Alive=" << countAlive << std::endl;
 
             // Get current state of this cell
             int cellIdx = ConwayBoard::GetIndexFromCoord(x, y);

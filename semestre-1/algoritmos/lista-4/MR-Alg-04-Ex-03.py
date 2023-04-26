@@ -1,8 +1,3 @@
-# C/5 = (F-32)/9
-
-def fahrenheitToCelsius(temp: float):
-    return (temp - 32) * 5/9
-
 def celsiusToFahrenheit(temp: float):
     return temp * 9/5 + 32
 

@@ -7,7 +7,7 @@ pygame.init()
 
 WIDTH = 600
 HEIGHT = 600
-FPS = 60
+FPS = 6000
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
@@ -104,5 +104,5 @@ class ConwayBoard:
                 if value == 1:
                     pygame.draw.rect(window, (200, 200, 200), (xPos, yPos, w, h))
 
-app = ConwayBoard(20, 20)
+app = ConwayBoard(50, 50)
 app.loop()

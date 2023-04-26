@@ -58,14 +58,13 @@ void Application::loop() {
                     break;
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
-                        case SDLK_e:
-                            std::cout << "Updating" << std:: endl;
-                            update();
+                        // case SDLK_e:
+                            // update();
                     }
             }
         }
 
-        // update();
+        update();
         draw();
     }
 }
@@ -73,7 +72,7 @@ void Application::loop() {
 void Application::update() {
     // Update conway board
     board.update();
-    SDL_Delay(1000 / 3);
+    SDL_Delay(1000 / 60);
 }
 
 void ClearScreen(SDL_Renderer *renderer) {
@@ -93,19 +92,15 @@ void Application::draw() {
             SDL_Rect cellRect = board.GetCellRect(width, height, x, y);
 
             // Paint only if cell is 1
-            if (cellValue == 1) {
+            if (cellValue != 0) {
                 SDL_RenderFillRect(renderer, &cellRect);
             }
 
-            // std::cout << cellValue ? "#" : " ";
+            if (cellValue != 0 && cellValue != 1) {
+                std::cout << "Cell at (" << x << ", " << y << ") is " << cellValue << std::endl;
+            }
         }
-
-        // std::cout << std::endl;
     }
-
-    // for (int i = 0; i < 3; i++) {
-    //      std::cout << std::endl;
-    // }
 
     SDL_RenderPresent(renderer);
 }
