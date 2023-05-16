@@ -1,14 +1,18 @@
 from math import log10, floor
 
 # Números na tabela
-inicio = 1
-final = 10
+inicio = -80
+final = 80
 
 assert inicio <= final, "inicio precisa ser menor que final!"
 
 # Calcula espaçamento entre colunas
-produto_maximo = final * final
+produto_maximo = max(abs(inicio), abs(final)) ** 2
 espacamento = floor(log10(produto_maximo)) + 1
+
+# Se houver números negativos, adiciona 1 para não dar cortar sinais ou números encostarem
+if inicio < 0 or final < 0:
+    espacamento += 1
 
 # Linha inicial (das colunas)
 print(" " * (espacamento + 1), end=" ")
