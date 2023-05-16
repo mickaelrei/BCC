@@ -9,9 +9,6 @@ if ($null -eq $exercises) {
     $exercises = Read-Host -Prompt "Number of exercises"
 }
 
-$initials = "MR"
-$subject = "Alg"
-
 # Dir name
 if ($list -lt 10) {
     $dir = "$initials-$subject-0$list"
