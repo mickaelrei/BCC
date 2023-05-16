@@ -1,8 +1,8 @@
 from math import log10, floor
 
 # Números na tabela
-inicio = -80
-final = 80
+inicio = 1
+final = 10
 
 assert inicio <= final, "inicio precisa ser menor que final!"
 
