@@ -3,7 +3,7 @@
 #include "math.h"
 #include <string.h>
 
-const char* ordinal(int n) {
+char* ordinal(int n) {
     const char* ordinais[][10] = {
         {
             "",
@@ -42,11 +42,11 @@ const char* ordinal(int n) {
             "noningentesimo"
         }
     };
-    const size_t size = sizeof(ordinais) / sizeof(ordinais[0]);
+    size_t size = sizeof(ordinais) / sizeof(ordinais[0]);
     int digitos = floor(log10((double) n)) + 1;
 
     if (digitos > size || n < 0) {
-        return "\0";
+        return "Not implemented";
     }
     
     char* str = (char*) malloc(sizeof(char) * 41);
