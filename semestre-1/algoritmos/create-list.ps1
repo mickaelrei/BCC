@@ -28,8 +28,13 @@ if (Test-Path -Path ".\$dir\") {
 # Create files
 for ($i = 1; $i -le $exercises; $i++) {
     if ($i -lt 10) {
-        [void](New-Item -Path ".\$dir\" -Name "$initials-$subject-$list-Ex-0$i$extension")
+        $filename = "$initials-$subject-$list-Ex-0$i$extension"
     } else {
-        [void](New-Item -Path ".\$dir\" -Name "$initials-$subject-$list-Ex-$i$extension")
+        $filename = "$initials-$subject-$list-Ex-$i$extension"
     }
+    Write-Host -NoNewLine "`rCreating file $filename"
+
+    [void](New-Item -Path ".\$dir\" -Name $filename)
 }
+
+Write-Host -NoNewLine "`r"
