@@ -49,7 +49,7 @@ char* ordinal(int n) {
         return "Not implemented";
     }
     
-    char* str = (char*) malloc(sizeof(char) * 41);
+    char* str = malloc(sizeof(char) * 41);
     str[0] = '\0';
 
     for (int i = 1; i <= digitos; i++) {
