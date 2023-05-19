@@ -244,15 +244,3 @@ void main() {
     printf("Tamanho: %d\n", le_len(le));
     free(le);
 }
-
-
-// TODO:
-// void le_append(celula *le, int pos, int value)
-// Insere o valor value logo após a posição pos-1
-// p = celula(value)
-// prev = le[pos - 1]
-// curr = le[pos]
-// prev.prox = p
-// p.prox = curr
-
-// NAO VAI DAR CERTO SE pos == 0
