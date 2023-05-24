@@ -10,4 +10,9 @@ def isInteger(string: str):
         
     return True
 
-print(isInteger("-151023"))
+def main():
+    s = input("Digite um número inteiro: ")
+    print(f"{s} {'não ' if not isInteger(s) else ''}é um número inteiro.")
+
+if __name__ == "__main__":
+    main()

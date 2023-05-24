@@ -9,21 +9,23 @@ if ($null -eq $exercises) {
     $exercises = Read-Host -Prompt "Number of exercises"
 }
 
-# Dir name
 if ($list -lt 10) {
-    $dir = "$initials-$subject-0$list"
-} else {
-    $dir = "$initials-$subject-$list"
+    $list = "0" + $list
 }
+
+$dir = "$initials-$subject-$list"
 
 # Check if folder already exists
-if (Test-Path -Path ".\$dir\") {
-    Write-Host "Folder for this list already exists ($dir)"
-    exit
+if (-Not (Test-Path -Path ".\$dir\")) {
+    [void](New-Item -Path . -Name $dir -ItemType Directory)
 }
 
-# Create folder
-[void](New-Item -Path . -Name $dir -ItemType Directory)
+# Create sub folder for this extension
+if (-Not (Test-Path -Path ".\$dir\$extension")) {
+    [void](New-Item -Path $dir -Name $extension -ItemType Directory)
+}
+$dir = $dir + "\$extension"
+
 
 # Create files
 for ($i = 1; $i -le $exercises; $i++) {
@@ -32,9 +34,25 @@ for ($i = 1; $i -le $exercises; $i++) {
     } else {
         $filename = "$initials-$subject-$list-Ex-$i$extension"
     }
-    Write-Host -NoNewLine "`rCreating file $filename"
 
+    # If already exists, continue
+    if (Test-Path -Path ".\$dir\$filename") {
+        continue
+    }
+
+    Write-Host -NoNewLine "`rCreating file $filename"
     [void](New-Item -Path ".\$dir\" -Name $filename)
+
+    # Add main and includes
+    if ($extension -eq ".c") {
+        "#include <stdio.h>`n`nvoid main() {`n`n}" | Out-File -FilePath ".\$dir\$filename"
+    }
+}
+
+# Add gitignore for .c
+if ($extension -eq ".c") {
+    [void](New-Item -Path ".\$dir\" -Name ".gitignore")
+    "*`n!*.c`n!.gitignore" | Out-File -FilePath ".\$dir\.gitignore"
 }
 
 Write-Host -NoNewLine "`r"
