@@ -45,14 +45,14 @@ for ($i = 1; $i -le $exercises; $i++) {
 
     # Add main and includes
     if ($extension -eq ".c") {
-        "#include <stdio.h>`n`nvoid main() {`n`n}" | Out-File -FilePath ".\$dir\$filename"
+        "#include <stdio.h>`r`n`r`nvoid main() {`r`n`r`n}" | Out-File -FilePath ".\$dir\$filename" -Encoding utf8
     }
 }
 
 # Add gitignore for .c
 if ($extension -eq ".c") {
     [void](New-Item -Path ".\$dir\" -Name ".gitignore")
-    "*`n!*.c`n!.gitignore" | Out-File -FilePath ".\$dir\.gitignore"
+    "*`r`n!*.c`r`n!.gitignore" | Out-File -FilePath ".\$dir\.gitignore" -Encoding utf8
 }
 
 Write-Host -NoNewLine "`r"
