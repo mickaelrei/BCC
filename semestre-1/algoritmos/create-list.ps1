@@ -35,24 +35,27 @@ for ($i = 1; $i -le $exercises; $i++) {
         $filename = "$initials-$subject-$list-Ex-$i$extension"
     }
 
-    # If already exists, continue
-    if (Test-Path -Path ".\$dir\$filename") {
-        continue
+    # If doesn't exists, create file
+    if (-Not (Test-Path -Path ".\$dir\$filename")) {
+        Write-Host -NoNewLine "`rCreating file $filename"
+        [void](New-Item -Path ".\$dir\" -Name $filename)
     }
 
-    Write-Host -NoNewLine "`rCreating file $filename"
-    [void](New-Item -Path ".\$dir\" -Name $filename)
-
-    # Add main and includes
-    if ($extension -eq ".c") {
-        "#include <stdio.h>`r`n`r`nvoid main() {`r`n`r`n}" | Out-File -FilePath ".\$dir\$filename" -Encoding utf8
+    # Add basic text depending on extension
+    if ($extension -eq ".c" -And !(Get-Content ".\$dir\$filename")) {
+        "/**/`r`n`r`n#include <stdio.h>`r`n`r`nvoid main() {`r`n`r`n}" | Out-File -FilePath ".\$dir\$filename" -Encoding utf8 -Append
+    } elseif ($extension -eq ".py") {
+        "''''''`r`n`r`ndef main():`r`n`t...`r`n``r`n`if __name__ == `"__main__`":`r`n`tmain()" | Out-File -FilePath ".\$dir\$filename" -Encondig utf8 -Append
     }
 }
 
 # Add gitignore for .c
-if ($extension -eq ".c") {
+if ($extension -eq ".c" -And !(Test-Path -Path ".\$dir\.gitignore")) {
     [void](New-Item -Path ".\$dir\" -Name ".gitignore")
-    "*`r`n!*.c`r`n!.gitignore" | Out-File -FilePath ".\$dir\.gitignore" -Encoding utf8
+
+    if (!(Get-Content ".\$dir\.gitignore")) {
+        "*`r`n!*.c`r`n!.gitignore" | Out-File -FilePath ".\$dir\.gitignore" -Encoding utf8 -Append
+    }
 }
 
 Write-Host -NoNewLine "`r"
