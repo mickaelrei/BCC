@@ -10,15 +10,15 @@ ConwayBoard::ConwayBoard() {
 
 ConwayBoard::ConwayBoard(int _cols, int _rows) {
     // Set seed for RNG
-    srand((unsigned) time(NULL));
+    srand((unsigned) 15);
 
     cols = _cols;
     rows = _rows;
 
     // Initialize current and previous_board boards
     int size = cols * rows;
-    current_board = new int[size];
-    next_board = new int[size];
+    current_board = std::vector<int>(size, 0);
+    next_board = std::vector<int>(size, 0);
     for (int i = 0; i < size; i++) {
         next_board[i] = 0;
         current_board[i] = rand() % 2;
@@ -26,8 +26,8 @@ ConwayBoard::ConwayBoard(int _cols, int _rows) {
 }
 
 ConwayBoard::~ConwayBoard() {
-    delete[] next_board;
-    delete[] current_board;
+    // delete[] next_board;
+    // delete[] current_board;
 }
 
 int ConwayBoard::GetIndexFromCoord(int x, int y) {
@@ -73,6 +73,7 @@ std::vector<int> ConwayBoard::GetNeighbors(int x, int y) {
 
             // Get neighbor index
             int idx = ConwayBoard::GetIndexFromCoord(dx, dy);
+            // int idx = 0;
 
             // Add neighbor value to list
             neighbors.push_back(current_board[idx]);
