@@ -2,7 +2,6 @@
 #include <iostream>
 #include <stdlib.h>
 #include <math.h>
-#include "wtypes.h"
 
 Application::Application(int _width, int _height, int _board_cols, int _board_rows) {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
