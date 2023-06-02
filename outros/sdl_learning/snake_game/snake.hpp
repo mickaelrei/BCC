@@ -7,14 +7,15 @@
 class Snake
 {
     public:
-        Snake(int start_x = 5, int start_y = 5, int start_size = 3, Direction start_direction = Direction::East);
+        Snake(int start_x = 7, int start_y = 3, int start_size = 3, Direction start_direction = Direction::East);
         ~Snake();
-        void move();
+        void update(bool borders = false, int cols = 0, int rows = 0);
         void ChangeDirection(Direction direction);
-        int size;
-        std::vector<Vector2> body;
+        void grow(int amount = 1);
+        bool CheckDead(bool borders, int cols, int rows);
+        std::vector<Vec2> body;
     private:
-        int head_x, head_y;
-        Vector2 direction_vector;
+        int head_x, head_y, grow_queue;
+        Vec2 direction_vector;
         Direction direction;
 };
