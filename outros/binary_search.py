@@ -22,7 +22,13 @@ def binary_search(l: list, element: int|float) -> int:
     # Item não existe
     return None
 
-l = [randrange(0, 100) for _ in range(100)]
-l.sort()
+if __name__ == "__main__":
+    l = [randrange(0, 100) for _ in range(100)]
+    l.sort()
 
-idx = binary_search(l, -2)
+    item = 15
+    idx = binary_search(l, item)
+    if not idx or l[idx] != item:
+        print("Failed")
+    else:
+        print("Succeeded")

@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include "application.hpp"
 #include "vector2.hpp"
-#include <random>
 
 Vec2 Application::ToScreenCoordinates(Vec2 pos)
 {
@@ -204,11 +203,9 @@ void Application::HandleKeyDown(SDL_Keycode keycode)
 
 void Application::update()
 {
-    bool dead = snake.CheckDead(borders, cols, rows);
+    dead = snake.CheckDead(borders, cols, rows);
     if (dead)
     {
-        std::cout << "Snake died\n";
-        running = false;
         return;
     }
     
@@ -315,7 +312,21 @@ void Application::loop()
             }
         }
 
-        update();
-        draw();
+
+        if (dead)
+        {
+            std::string end_message = "You got " + std::to_string(snake.body.size() - snake.start_size) + " points!";
+            running = false;
+            SDL_ShowSimpleMessageBox(
+                SDL_MESSAGEBOX_INFORMATION,
+                "Game over",
+                end_message.c_str(),
+                window
+            );
+        } else
+        {
+            update();
+            draw();
+        }
     }
 }

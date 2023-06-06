@@ -22,13 +22,14 @@ Vec2 DirectionToVector2(Direction direction)
     return Vec2{0, 0};
 }
 
-Snake::Snake(int start_x, int start_y, int start_size, Direction start_direction)
+Snake::Snake(int start_x, int start_y, int _start_size, Direction start_direction)
 {
     // Convert direction
     direction = start_direction;
     direction_vector = DirectionToVector2(start_direction);
 
     // Alloc body
+    start_size = _start_size;
     body = std::vector<Vec2>();
 
     // Create body
@@ -60,7 +61,6 @@ bool Snake::CheckDead(bool borders, int cols, int rows)
     {
         if (body[0].x == body[i].x && body[0].y == body[i].y)
         {
-            printf("Snake hit himself\n");
             return true;
         }
     }

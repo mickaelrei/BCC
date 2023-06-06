@@ -28,5 +28,5 @@ class Application
         SDL_Window *window;
         SDL_Surface *window_surface;
         SDL_Renderer *renderer;
-        bool running = true, borders, changed_direction;
+        bool running = true, dead = false, borders, changed_direction;
 };
