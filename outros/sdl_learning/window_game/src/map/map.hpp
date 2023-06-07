@@ -9,6 +9,6 @@ struct Map
 {
     std::vector<SDL_Rect> cells;
     std::string info;
-    Vec2 size;
+    Vec2i size;
     SDL_Color wall_color, floor_color;
 };

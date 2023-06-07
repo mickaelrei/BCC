@@ -1,7 +1,7 @@
 #include <iostream>
 #include "window.hpp"
 
-Window::Window(int x, int y, int width, int height, std::string title)
+IWindow::IWindow(int x, int y, int width, int height, std::string title)
 {
     window = SDL_CreateWindow(
         title.c_str(),
@@ -38,30 +38,30 @@ Window::Window(int x, int y, int width, int height, std::string title)
     SDL_GetWindowSize(window, &size.x, &size.y);
 }
 
-Window::~Window()
+IWindow::~IWindow()
 {
     SDL_FreeSurface(surface);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
 
-void Window::render()
+void IWindow::render()
 {
     // Render map
 }
 
-void Window::HandleEvent(SDL_event e)
+void IWindow::HandleEvent(SDL_event e)
 {
 	if (!(e.type == SDL_WINDOWEVENT && e.window.windowID == mWindowID)) break;
 
     switch (e.window.event)
     {
-        //Window appeared
+        //IWindow appeared
         case SDL_WINDOWEVENT_SHOWN:
             shown = true;
             break;
 
-        //Window disappeared
+        //IWindow disappeared
         case SDL_WINDOWEVENT_HIDDEN:
             shown = false;
             break;
@@ -104,7 +104,7 @@ void Window::HandleEvent(SDL_event e)
     }
 }
 
-void Window::focus()
+void IWindow::focus()
 {
     // Show window if not shown
 	if (!shown)
@@ -116,27 +116,27 @@ void Window::focus()
 	SDL_RaiseWindow(window);
 }
 
-bool Window::HasFocus()
+bool IWindow::HasFocus()
 {
     return mouseFocus;
 }
 
-bool Window::hasKeyboardFocus()
+bool IWindow::hasKeyboardFocus()
 {
     return hasKeyboardFocus;
 }
 
-bool Window::isShown()
+bool IWindow::isShown()
 {
     return shown;
 }
 
-Vec2 Window::ToScreenCoordinate(Vec2 window_pos)
+Vec2 IWindow::ToScreenCoordinate(Vec2 window_pos)
 {
 
 }
 
-Vec2 Window::ToWindowCoordinate(Vec2 screen_pos)
+Vec2 IWindow::ToWindowCoordinate(Vec2 screen_pos)
 {
     
 }

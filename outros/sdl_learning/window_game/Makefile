@@ -1,8 +1,8 @@
-FILES := application/application.cpp \
-		 collision/collision.cpp \
-		 draw_utils/utils.cpp \
-		 player/player.cpp \
-		 window/window.cpp \
+FILES := src/application/application.cpp \
+		 src/collision/collision.cpp \
+		 src/draw_utils/utils.cpp \
+		 src/player/player.cpp \
+		 src/window/window.cpp \
 		 main.cpp
 
 OBJ_NAME := main

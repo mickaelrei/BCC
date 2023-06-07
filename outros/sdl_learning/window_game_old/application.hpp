@@ -15,7 +15,7 @@ class Application
         Application(int window_width = 300, int window_height = 300, int window_count = 5);
         ~Application();
         void loop();
-        bool debug_window_events;
+        bool debug_window_events = false;
     private:
         void update();
         void draw();
@@ -26,14 +26,11 @@ class Application
         void HandleEvents();
         void ApplyWindowOffset(int window_idx, int *x, int *y);
         void FocusAll();
-        std::vector<SDL_Window*> windows;
-        std::vector<SDL_Surface*> window_surfaces;
-        std::vector<SDL_Renderer*> renderers;
         int window_count;
         int focused_window_idx = 0;
-        // SDL_Window *window;
-        // SDL_Surface *window_surface;
-        // SDL_Renderer *renderer;
+        SDL_Window *window;
+        SDL_Surface *window_surface;
+        SDL_Renderer *renderer;
         SDL_Event event;
         SDL_Color floor_color, wall_color, player_color; 
         std::string map;

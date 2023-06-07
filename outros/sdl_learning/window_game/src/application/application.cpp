@@ -7,6 +7,119 @@
 
 Application::Application(int window_width, int window_height, int _window_count)
 {
+    // Create default map
+    current_map.info  = "#################";
+    current_map.size.x = current_map.info.length();
+    current_map.info += "#..#.........#..#";
+    current_map.info += "#..########..#..#";
+    current_map.info += "#..#...#..#..#..#";
+    current_map.info += "#..#...#..#..#..#";
+    current_map.info += "#......#..#..#..#";
+    current_map.info += "#..#####..#..#..#";
+    current_map.info += "#.......P.......#";
+    current_map.info += "#...............#";
+    current_map.info += "#################";
+
+    current_map.size.y = current_map.info.length() / current_map.size.x;
+
+    init();
+
+    // Create all windows
+    int padding = 30;
+    int _width = (screen_size.x - padding * _window_count) / _window_count;
+    int y = 0;
+    windows = std::vector<Window>(_window_count, Window());
+    for (int i = 0; i < _window_count; i++)
+    {
+        std::stringstream title;
+        title << "Window " << i;
+
+        int x = i * (_width + padding);
+
+        windows[i].init(
+            screen_size,
+            &current_map,
+            current_map.wall_color,
+            current_map.floor_color,
+            x,
+            y,
+            _width,
+            screen_size.y,
+            // screen_size.x / 2 - window_width / 2,
+            // screen_size.y / 2 - window_height / 2,
+            // window_width,
+            // window_height,
+            title.str()
+        );
+    }
+}
+
+Application::Application(rapidjson::Document& config)
+{
+    // Assert config info
+    assert(config["map"].IsArray());
+    assert(config["windows"].IsArray());
+
+    // Load map from config
+    current_map.info = "";
+    for (rapidjson::SizeType i = 0; i < config["map"].Size(); i++)
+    {
+        current_map.info += config["map"][i].GetString();
+    }
+
+    // Set map size
+    current_map.size.x = strlen(config["map"][0].GetString());
+    current_map.size.y = strlen(current_map.info.c_str()) / current_map.size.x;
+
+    init();
+
+    // Create windows based on config
+    windows = std::vector<Window>(config["windows"].Size(), Window());
+    for (rapidjson::SizeType i = 0; i < config["windows"].Size(); i++)
+    {
+        std::stringstream title;
+        title << "Window " << i;
+
+        const rapidjson::Value& window_json = config["windows"][i];
+
+        // Check if colors exists
+        SDL_Color wall_color, floor_color;
+        if (window_json.HasMember("wall_color"))
+            wall_color = {
+                window_json["wall_color"][0].GetInt(),
+                window_json["wall_color"][1].GetInt(),
+                window_json["wall_color"][2].GetInt(),
+                SDL_ALPHA_OPAQUE
+            };
+        else
+            wall_color = {0, 0, 0, SDL_ALPHA_OPAQUE};
+
+        if (window_json.HasMember("floor_color"))
+            floor_color = {
+                window_json["floor_color"][0].GetInt(),
+                window_json["floor_color"][1].GetInt(),
+                window_json["floor_color"][2].GetInt(),
+                SDL_ALPHA_OPAQUE
+            };
+        else
+            floor_color = {200, 200, 200, SDL_ALPHA_OPAQUE};
+
+        windows[i].init(
+            screen_size,
+            current_map,
+            wall_color,
+            floor_color,
+            window_json["x"].GetInt(),
+            window_json["y"].GetInt(),
+            window_json["width"].GetInt(),
+            window_json["height"].GetInt(),
+            title.str()
+        );
+    }
+}
+
+void Application::init()
+{
     // Initialize
     if (!SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -24,44 +137,13 @@ Application::Application(int window_width, int window_height, int _window_count)
     std::cout << "Screen resolution: " << mode.w << "x" << mode.h << std::endl;
     
     // Set sizes
-    screen_size = Vec2{mode.w, mode.h};
-
-    // Create all windows
-    windows = std::vector<Window>(_window_count, Window());
-    for (int i = 0; i < _window_count; i++)
-    {
-        std::stringstream title;
-        title << "Window " << i;
-
-        windows[i].init(
-            screen_size,
-            screen_size.x / 2 - window_width / 2,
-            screen_size.y / 2 - window_height / 2,
-            window_width,
-            window_height,
-            title.str()
-        );
-    }
+    screen_size = Vec2i{mode.w, mode.h};
 
     // Set colors
     current_map.floor_color = {200, 200, 200, SDL_ALPHA_OPAQUE};
     current_map.wall_color = {0, 0, 0, SDL_ALPHA_OPAQUE};
 
-    // Create map
-    current_map.info  = "#################";
-    current_map.size.x = current_map.info.length();
-    current_map.info += "#..#.........#..#";
-    current_map.info += "#..########..#..#";
-    current_map.info += "#..#...#..#..#..#";
-    current_map.info += "#..#...#..#..#..#";
-    current_map.info += "#......#..#..#..#";
-    current_map.info += "#..#####..#..#..#";
-    current_map.info += "#.......P.......#";
-    current_map.info += "#...............#";
-    current_map.info += "#################";
-
-    current_map.size.y = current_map.info.length() / current_map.size.x;
-    cell_size = Vec2{screen_size.x / current_map.size.x, screen_size.y / current_map.size.y};
+    cell_size = Vec2i{screen_size.x / current_map.size.x, screen_size.y / current_map.size.y};
 
     // Check if map is valid
     if (current_map.info.length() != current_map.size.x * current_map.size.y)
@@ -85,7 +167,7 @@ Application::Application(int window_width, int window_height, int _window_count)
     int start_y = (float)map_y / current_map.size.y * screen_size.y;
 
     // Create player
-    player = Player(start_x + cell_size.x / 2, start_y + cell_size.y / 2);
+    player = Player(&current_map, start_x + cell_size.x / 2, start_y + cell_size.y / 2, -90, 15);
 
     // Create list of map rects
     current_map.cells = std::vector<SDL_Rect>();
@@ -227,7 +309,7 @@ void Application::HandleEvents()
 void Application::update()
 {
     // Update player
-    player.update(pressedKeys.up - pressedKeys.down, pressedKeys.right - pressedKeys.left, screen_size.x, screen_size.y, current_map);
+    player.update(pressedKeys.up - pressedKeys.down, pressedKeys.right - pressedKeys.left, screen_size.x, screen_size.y);
     SDL_Delay(1000 / 60);
 }
 

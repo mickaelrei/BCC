@@ -6,6 +6,9 @@
 #include "../player/player.hpp"
 #include "../window/window.hpp"
 
+#include "../rapidjson/document.h"
+#include "../rapidjson/filereadstream.h"
+
 struct PressedKeys
 {
     bool up, down, left, right;
@@ -16,6 +19,8 @@ class Application
     public:
         // Initialize
         Application(int window_width = 300, int window_height = 300, int window_count = 5);
+        Application(rapidjson::Document& config);
+        void init();
 
         // Destroy
         ~Application();
@@ -49,7 +54,7 @@ class Application
         int inc;
 
         // Sizes
-        Vec2 screen_size, cell_size;
+        Vec2i screen_size, cell_size;
 
         // Pressed keys for movement
         PressedKeys pressedKeys;

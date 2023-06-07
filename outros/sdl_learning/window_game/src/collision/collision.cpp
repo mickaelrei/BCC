@@ -1,11 +1,11 @@
 #include "collision.hpp"
 
-bool PlayerCollides(Vec2* player_pos, int player_radius, Map map)
+bool PlayerCollides(Vec2f* player_pos, int player_radius, Map* map)
 {
-    for (int i = 0; i < map.cells.size(); i++)
+    for (int i = 0; i < map->cells.size(); i++)
     {
-        SDL_Rect cell = map.cells[i];
-        if (map.info[i] != '#') continue;
+        SDL_Rect cell = map->cells[i];
+        if (map->info[i] != '#') continue;
 
         int dx;
         if (player_pos->x < cell.x)

@@ -12,7 +12,7 @@ class Window
     public:
         // Initialize
         Window();
-        void init(Vec2 _screen_size, int x = 0, int y = 0, int width = 300, int height = 300, std::string title = "Window");
+        void init(Vec2i _screen_size, Map* map, SDL_Color wall_color, SDL_Color floor_color, int x = 0, int y = 0, int width = 300, int height = 300, std::string title = "Window");
         
         // Destroy
         ~Window();
@@ -29,14 +29,17 @@ class Window
         void focus();
 
         // Converting between coordinate systems
-        Vec2 ToScreenCoordinate(Vec2 window_pos);
-        Vec2 ToWindowCoordinate(Vec2 screen_pos);
+        Vec2i ToScreenCoordinate(Vec2i window_pos);
+        Vec2i ToWindowCoordinate(Vec2i screen_pos);
         void ApplyWindowOffset(int* x, int* y);
     private:
         // Window coordinate
-        Vec2 pos;
-        Vec2 size;
-        Vec2 screen_size;
+        Vec2i pos;
+        Vec2i size;
+        Vec2i screen_size;
+
+        // Color data
+        SDL_Color _wall_color, _floor_color;
 
         // Window data
         SDL_Window* window;

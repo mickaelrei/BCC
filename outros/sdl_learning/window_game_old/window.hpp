@@ -4,11 +4,11 @@
 #include <SDL2/SDL.h>
 #include "vec2.hpp"
 
-class Window
+class IWindow
 {
     public:
-        Window(int x = 0, int y = 0, int width = 300, int height = 300, std::string title = "Window");
-        ~Window();
+        IWindow(int x = 0, int y = 0, int width = 300, int height = 300, std::string title = "IWindow");
+        ~IWindow();
 
         // Handlers
         void HandleEvent(SDL_Event e);
@@ -16,7 +16,7 @@ class Window
         // Show content
         void render();
 
-        // Window focus
+        // IWindow focus
         void focus();
         bool HasFocus();
         bool hasKeyboardFocus();
@@ -26,23 +26,23 @@ class Window
         Vec2 ToScreenCoordinate(Vec2 window_pos);
         Vec2 ToWindowCoordinate(Vec2 screen_pos);
     private:
-        // Window size
+        // IWindow size
         Vec2 size;
 
-        // Window data
+        // IWindow data
         SDL_Window* window;
-        SDL_Renderer renderer;
-        SDL_Surface surface;
+        SDL_Renderer* renderer;
+        SDL_Surface* surface;
         int windowID;
 
-        // Window focus
+        // IWindow focus
 		bool mouseFocus;
 		bool keyboardFocus;
 		bool shown;
-}
+};
 
 /*
-Window
+IWindow
 Width, height
 Renderer
 Surface

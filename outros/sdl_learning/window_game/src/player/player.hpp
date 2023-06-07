@@ -7,17 +7,22 @@
 class Player
 {
     public:
-        Player(int start_x = 0, int start_y = 0, float start_angle= -90, int _radius = 15);
+        Player() {};
+        Player(Map* map, float start_x = 0, float start_y = 0, float start_angle = -90, int _radius = 15);
         ~Player();
 
         // Update movement
-        void update(int move_factor, int rotate_factor, int max_x, int max_y, Map current_map);
+        void update(int move_factor, int rotate_factor, int max_x, int max_y);
 
         // Render data
-        Vec2 pos;
+        Vec2f pos;
         float radius;
         float angle;
         SDL_Color color;
+
+    private:
+        // Current map
+        Map* _map;
 
         // Movement data
         float move_speed, rotate_speed;

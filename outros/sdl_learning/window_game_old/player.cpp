@@ -34,6 +34,6 @@ void Player::update(int move_factor, int rotate_factor, int max_x, int max_y)
 
     float add_x = cosf(angle / 180 * M_PI) * move_factor * move_speed;
     float add_y = sinf(angle / 180 * M_PI) * move_factor * move_speed;
-    pos.x = clamp(pos.x + add_x, 0, max_x);
-    pos.y = clamp(pos.y + add_y, 0, max_y);
+    pos.x = clamp(pos.x + add_x, radius, max_x - radius);
+    pos.y = clamp(pos.y + add_y, radius, max_y - radius);
 }

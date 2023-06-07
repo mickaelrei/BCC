@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <cmath>
 #include "window.hpp"
 #include "../draw_utils/utils.hpp"
 #include "../application/application.hpp"
@@ -14,15 +16,15 @@ Window::Window()
     scroll_inc = 10;
 }
 
-void Window::init(Vec2 _screen_size, int x, int y, int width, int height, std::string title)
+void Window::init(Vec2i _screen_size, Map* map, SDL_Color wall_color, SDL_Color floor_color, int x, int y, int width, int height, std::string title)
 {
     window = SDL_CreateWindow(
         title.c_str(),
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
+        x,
+        y,
         width,
         height,
-        0
+        SDL_WINDOW_OPENGL
     );
     if (!window)
     {
@@ -48,10 +50,15 @@ void Window::init(Vec2 _screen_size, int x, int y, int width, int height, std::s
     windowID = SDL_GetWindowID(window);
     scroll_inc = 10;
 
-    // Get sizes
+    // Set colors
+    _wall_color = wall_color;
+    _floor_color = floor_color;
+
+    // Get sizes and position
     screen_size.x = _screen_size.x;
     screen_size.y = _screen_size.y;
     SDL_GetWindowSize(window, &size.x, &size.y);
+    SDL_GetWindowPosition(window, &pos.x, &pos.y);
 }
 
 Window::~Window()
@@ -108,9 +115,9 @@ void Window::render(Map current_map, Player player)
         for (int i = 0; i < current_map.size.x; i++)
         {
             if (current_map.info[j * current_map.size.x + i] == '#')
-                SDL_SetRenderDrawColor(renderer, current_map.wall_color.r, current_map.wall_color.g, current_map.wall_color.b, current_map.wall_color.a);
+                SDL_SetRenderDrawColor(renderer, wall_color.r, wall_color.g, wall_color.b, wall_color.a);
             else
-                SDL_SetRenderDrawColor(renderer, current_map.floor_color.r, current_map.floor_color.g, current_map.floor_color.b, current_map.floor_color.a);
+                SDL_SetRenderDrawColor(renderer, floor_color.r, floor_color.g, floor_color.b, floor_color.a);
 
             SDL_Rect cell = current_map.cells[j * current_map.size.x + i];
             rect.x = cell.x;
@@ -147,7 +154,9 @@ void Window::focus()
 
 void Window::UpdatePosition()
 {
-    SDL_GetWindowPosition(window, &pos.x, &pos.y);
+    // SDL_GetWindowPosition(window, &pos.x, &pos.y);
+    // SDL_SetWindowPosition(window, pos.x, pos.y);
+    // SDL_SetWindowSize(window, size.x, size.y);
 }
 
 void Window::HandleScroll(SDL_MouseWheelEvent e)
@@ -155,7 +164,7 @@ void Window::HandleScroll(SDL_MouseWheelEvent e)
     if (e.windowID != windowID) return;
 
     // Get current size and position
-    Vec2 current_size;
+    Vec2i current_size;
     SDL_GetWindowSize(window, &current_size.x, &current_size.y);
     SDL_GetWindowPosition(window, &pos.x, &pos.y);
 
@@ -210,16 +219,16 @@ void Window::HandleWindowEvent(SDL_WindowEvent window_event)
     }
 }
 
-Vec2 Window::ToScreenCoordinate(Vec2 window_pos)
+Vec2i Window::ToScreenCoordinate(Vec2i window_pos)
 {
-    Vec2 screen_pos;
+    Vec2i screen_pos;
 
     return screen_pos;
 }
 
-Vec2 Window::ToWindowCoordinate(Vec2 screen_pos)
+Vec2i Window::ToWindowCoordinate(Vec2i screen_pos)
 {
-    Vec2 window_pos;
+    Vec2i window_pos;
 
     return window_pos;
 }
