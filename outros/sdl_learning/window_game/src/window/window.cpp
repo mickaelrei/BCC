@@ -101,23 +101,24 @@ void Window::render(Map current_map, Player player)
         return;
     }
 
-    UpdatePosition();
+    // Update size and position members
+    SDL_GetWindowPosition(window, &pos.x, &pos.y);
+    SDL_GetWindowSize(window, &size.x, &size.y);        
 
-    // Render map
-    SDL_Rect rect;
     // Clear screen
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
     // Draw map
+    SDL_Rect rect;
     for (int j = 0; j < current_map.size.y; j++)
     {
         for (int i = 0; i < current_map.size.x; i++)
         {
             if (current_map.info[j * current_map.size.x + i] == '#')
-                SDL_SetRenderDrawColor(renderer, wall_color.r, wall_color.g, wall_color.b, wall_color.a);
+                SDL_SetRenderDrawColor(renderer, _wall_color.r, _wall_color.g, _wall_color.b, _wall_color.a);
             else
-                SDL_SetRenderDrawColor(renderer, floor_color.r, floor_color.g, floor_color.b, floor_color.a);
+                SDL_SetRenderDrawColor(renderer, _floor_color.r, _floor_color.g, _floor_color.b, _floor_color.a);
 
             SDL_Rect cell = current_map.cells[j * current_map.size.x + i];
             rect.x = cell.x;
@@ -152,11 +153,10 @@ void Window::focus()
     SDL_RaiseWindow(window);
 }
 
-void Window::UpdatePosition()
+void Window::UpdateWindow()
 {
-    // SDL_GetWindowPosition(window, &pos.x, &pos.y);
-    // SDL_SetWindowPosition(window, pos.x, pos.y);
-    // SDL_SetWindowSize(window, size.x, size.y);
+    SDL_SetWindowPosition(window, pos.x, pos.y);
+    SDL_SetWindowSize(window, size.x, size.y);
 }
 
 void Window::HandleScroll(SDL_MouseWheelEvent e)
@@ -214,7 +214,8 @@ void Window::HandleWindowEvent(SDL_WindowEvent window_event)
         
         // Get new position
         case SDL_WINDOWEVENT_MOVED:
-            UpdatePosition();
+            pos.x = window_event.data1;
+            pos.y = window_event.data2;
             break;
     }
 }

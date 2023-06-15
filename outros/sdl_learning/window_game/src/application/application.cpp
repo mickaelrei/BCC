@@ -26,7 +26,7 @@ Application::Application(int window_width, int window_height, int _window_count)
 
     // Create all windows
     int padding = 30;
-    int _width = (screen_size.x - padding * _window_count) / _window_count;
+    int _width = screen_size.x / _window_count - padding;
     int y = 0;
     windows = std::vector<Window>(_window_count, Window());
     for (int i = 0; i < _window_count; i++)
@@ -86,9 +86,9 @@ Application::Application(rapidjson::Document& config)
         SDL_Color wall_color, floor_color;
         if (window_json.HasMember("wall_color"))
             wall_color = {
-                window_json["wall_color"][0].GetInt(),
-                window_json["wall_color"][1].GetInt(),
-                window_json["wall_color"][2].GetInt(),
+                (Uint8) window_json["wall_color"][0].GetInt(),
+                (Uint8) window_json["wall_color"][1].GetInt(),
+                (Uint8) window_json["wall_color"][2].GetInt(),
                 SDL_ALPHA_OPAQUE
             };
         else
@@ -96,9 +96,9 @@ Application::Application(rapidjson::Document& config)
 
         if (window_json.HasMember("floor_color"))
             floor_color = {
-                window_json["floor_color"][0].GetInt(),
-                window_json["floor_color"][1].GetInt(),
-                window_json["floor_color"][2].GetInt(),
+                (Uint8) window_json["floor_color"][0].GetInt(),
+                (Uint8) window_json["floor_color"][1].GetInt(),
+                (Uint8) window_json["floor_color"][2].GetInt(),
                 SDL_ALPHA_OPAQUE
             };
         else
@@ -106,7 +106,7 @@ Application::Application(rapidjson::Document& config)
 
         windows[i].init(
             screen_size,
-            current_map,
+            &current_map,
             wall_color,
             floor_color,
             window_json["x"].GetInt(),
@@ -121,7 +121,7 @@ Application::Application(rapidjson::Document& config)
 void Application::init()
 {
     // Initialize
-    if (!SDL_Init(SDL_INIT_VIDEO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         std::cout << "Error initializing video: " << SDL_GetError() << std::endl;
         exit(-1);
@@ -306,10 +306,54 @@ void Application::HandleEvents()
     }
 }
 
+int Application::GetPlayerWindowIndex()
+{
+    for (int i = 0; i < windows.size(); i++)
+    {
+        // Check if player is inside this window
+        if (
+            player.pos.x > windows[i].pos.x &&                        // Inside X from left
+            player.pos.y > windows[i].pos.y &&                        // Inside Y from top
+            player.pos.x < windows[i].pos.x + windows[i].size.x &&    // Inside X from right
+            player.pos.y < windows[i].pos.y + windows[i].size.y       // Inside Y from bottom
+        )
+            return i;
+    }
+
+    return -1;
+}
+
 void Application::update()
 {
+    // Get FPS
+    int new_time = SDL_GetTicks();
+    if (current_count == mean_count)
+    {
+        float fps = 1000.f / (current_total / mean_count);
+        std::cout << "FPS: " << fps << std::endl;
+        current_total = (float)(new_time - old_time);
+        current_count = 1;
+    } else
+    {
+        current_total += (float)(new_time - old_time);
+        current_count ++;
+    }
+
+    old_time = new_time;
+    
     // Update player
     player.update(pressedKeys.up - pressedKeys.down, pressedKeys.right - pressedKeys.left, screen_size.x, screen_size.y);
+
+    int player_window_idx = GetPlayerWindowIndex();
+    if (player_window_idx != -1)
+    {
+        // std::cout << "Player is in window " << player_window_idx << std::endl;
+    }
+    else
+    {
+        // std::cout << "Player is not in a window" << std::endl;
+    }
+
     SDL_Delay(1000 / 60);
 }
 

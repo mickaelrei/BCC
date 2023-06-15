@@ -41,12 +41,12 @@ class Application
         void HandleScroll(SDL_Event e);
         void HandleEvents();
 
-        // Apply offset
-        void ApplyWindowOffset(int window_idx, int *x, int *y);
-
         // Windows
         std::vector<Window> windows;
         SDL_Event event;
+
+        // Coordinates
+        int GetPlayerWindowIndex();
 
         // Current map
         bool running = true;
@@ -61,4 +61,8 @@ class Application
 
         // Player
         Player player;
+
+        // Getting FPS
+        int old_time = 0, mean_count = 3, current_count = 0;
+        float current_total = 0;
 };

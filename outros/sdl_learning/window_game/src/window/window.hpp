@@ -32,12 +32,12 @@ class Window
         Vec2i ToScreenCoordinate(Vec2i window_pos);
         Vec2i ToWindowCoordinate(Vec2i screen_pos);
         void ApplyWindowOffset(int* x, int* y);
-    private:
+
         // Window coordinate
         Vec2i pos;
         Vec2i size;
-        Vec2i screen_size;
 
+    private:
         // Color data
         SDL_Color _wall_color, _floor_color;
 
@@ -45,10 +45,13 @@ class Window
         SDL_Window* window;
         SDL_Renderer* renderer;
         SDL_Surface* surface;
-        int windowID;
+        Uint32 windowID;
 
-        // Update window data
-        void UpdatePosition();
+        // Size of whole screen
+        Vec2i screen_size;
+
+        // Update window
+        void UpdateWindow();
 
         // Size scroll increment
         int scroll_inc;

@@ -144,7 +144,7 @@ def main():
 		print(posfixa)
 		resultado = evaluatePostfix(posfixa)
 
-		print(f"Resultado: {resultado}")
+		print(resultado)
 
 if __name__ == "__main__":
 	main()

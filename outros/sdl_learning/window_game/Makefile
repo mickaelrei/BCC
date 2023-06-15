@@ -1,3 +1,5 @@
+CC := g++
+
 FILES := src/application/application.cpp \
 		 src/collision/collision.cpp \
 		 src/draw_utils/utils.cpp \
@@ -5,13 +7,18 @@ FILES := src/application/application.cpp \
 		 src/window/window.cpp \
 		 main.cpp
 
+WFLAGS := -lmingw32
+
+FLAGS := -lSDL2main \
+		 -lSDL2 \
+
 OBJ_NAME := main
 
 wbuild:
-	g++ -I C:\SDL2\include -L C:\SDL2\lib $(FILES) -o $(OBJ_NAME) -lmingw32 -lSDL2main -lSDL2
+	$(CC) -I C:\SDL2\include -L C:\SDL2\lib $(FILES) -o $(OBJ_NAME) $(WFLAGS) $(FLAGS)
 
 build:
-	g++ $(FILES) -o $(OBJ_NAME) -lSDL2main -lSDL2
+	$(CC) $(FILES) -o $(OBJ_NAME) $(FLAGS)
 
 run:
 	./$(OBJ_NAME)
