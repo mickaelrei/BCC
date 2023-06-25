@@ -1,0 +1,81 @@
+LDA 134      # Resetando código de erro
+STA 132
+LDA 134      # Resetando resultado
+STA 131
+LDA 128      # Checando primeiro operando
+JN  18
+LDA 129      # Checando segundo operando
+JN  18
+JMP 23       # Operandos válidos
+LDA 135      # Operando inválido
+STA 132
+HLT
+LDA 130      # Checando código de operação
+JN  43        # Código negativo
+ADD 139
+JZ  48
+ADD 139
+JZ  55
+ADD 139
+JZ  65
+ADD 139
+JZ  86
+LDA 136      # Código de operação inválido
+STA 132
+HLT
+LDA 128      # Adição
+ADD 129
+STA 131
+HLT
+LDA 129      # Subtração
+NOT
+ADD 135
+ADD 128
+STA 131
+HLT
+LDA 128      # Multiplicação
+STA 127
+LDA 131
+ADD 129
+STA 131
+LDA 127
+ADD 139
+STA 127
+JZ  85
+JMP 69
+HLT
+LDA 129      # Divisão
+JZ  122
+LDA 128
+STA 127
+LDA 131
+ADD 135
+STA 131
+LDA 129
+NOT
+ADD 135
+ADD 127
+STA 127
+JZ  121
+JN  115
+JMP 94
+LDA 131
+ADD 139
+STA 131
+HLT
+LDA 137
+STA 132
+HLT
+0
+12           # Operando 1
+3            # Operando 2
+1            # Código de operação
+0            # Resultado da operação
+0            # Código de erro
+0
+0            # Início auxiliares
+1
+2
+3
+0
+255

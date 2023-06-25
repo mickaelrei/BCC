@@ -1,0 +1,62 @@
+Nome: Mickael Reichert
+
+# DOCUMENTAÇÃO
+
+Esta é uma implementação de calculadora de números inteiros positivos
+entre 0 e 127, com operações de adição, subtração, multiplicação e divisão.
+
+Entradas:
+    128 - primeiro operando
+    129 - segundo operando
+    130 - código de operação
+
+Para o código de operação, segue as regras:
+    1 - adição
+    2 - subtração
+    3 - multiplicação
+    4 - divisão
+
+Saída:
+    131 - resultado da operação
+    132 - código de erro
+
+Para o código de erro, segue as regras:
+    0 - sucesso
+    1 - operandos fora da faixa (negativos)
+    2 - código de operação inválido
+    3 - tentativa de divisão por zero
+
+# ALGORITMO
+
+O programa inicia colocando o valor 0 (zero) nas posições 131 e 132,
+para zerar o resultado e código de erro, respectivamente.
+
+Logo após, a partir da linha 8, o programa verifica se os dois operandos
+são válidos, isto é, são positivos (entre 0 e 127). Caso não for,
+o programa termina com código de erro 1.
+
+Caso os operandos sejam válidos, a partir da linha 23 começa a verificação
+do código de operação. Caso seja menor que 1 ou maior que 4, é considerado
+inválido e o programa termina com código de erro 2.
+
+Caso o código de operação seja válido, o programa segue para a operação
+correspondente, nas seguintes linhas:
+    48 - adição
+    55 - subtração
+    65 - multiplicação
+    86 - divisão
+
+No caso da divisão, antes da operação ser realizada, primeiro é verificado se
+o segundo operando é zero. Caso for, o programa termina com código de erro 3.
+
+Após a operação ser finalizada, o resultado estará na posição 131 e o programa
+finalizará com código de erro 0.
+
+# AUXILIARES
+
+A partir da linha 134 estão algumas variáveis auxiliares:
+    134 - código de erro 0
+    135 - código de erro 1
+    136 - código de erro 2
+    137 - código de erro 3
+    139 - valor 255 (equivalente a -1)
