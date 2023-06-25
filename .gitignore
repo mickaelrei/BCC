@@ -1,1 +1,5 @@
 .vscode
+*.zip
+*.exe
+*.o
+/__pycache__
