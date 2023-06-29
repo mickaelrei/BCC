@@ -45,7 +45,7 @@ for ($i = 1; $i -le $exercises; $i++) {
     if ($extension -eq ".c" -And !(Get-Content ".\$dir\$filename")) {
         "/**/`r`n`r`n#include <stdio.h>`r`n`r`nvoid main() {`r`n`r`n}" | Out-File -FilePath ".\$dir\$filename" -Encoding utf8 -Append
     } elseif ($extension -eq ".py") {
-        "''''''`r`n`r`ndef main():`r`n`t...`r`n``r`n`if __name__ == `"__main__`":`r`n`tmain()" | Out-File -FilePath ".\$dir\$filename" -Encondig utf8 -Append
+        "''''''`r`n`r`ndef main():`r`n`t...`r`n`r`n`if __name__ == `"__main__`":`r`n`tmain()" | Out-File -FilePath ".\$dir\$filename" -Encoding utf8 -Append
     }
 }
 

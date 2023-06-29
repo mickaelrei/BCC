@@ -1,5 +1,9 @@
-.vscode
+# Folders
+.vscode/
+__pycache__/
+
+# Files
 *.zip
 *.exe
 *.o
-/__pycache__
+*.pdf
