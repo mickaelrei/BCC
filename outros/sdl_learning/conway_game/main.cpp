@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
             return -1;
         }
     } else {
-        w = 600; h = 600;
+        w = 200; h = 200;
     }
 
     // Create app window

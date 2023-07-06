@@ -4,6 +4,13 @@
 #include <iostream>
 #include <cstdlib>
 
+int mod(int x, int m) {
+    while (x < 0)
+        x += m;
+
+    return x % m;
+}
+
 ConwayBoard::ConwayBoard() {
 
 }
@@ -62,14 +69,14 @@ std::vector<int> ConwayBoard::GetNeighbors(int x, int y) {
     for (int nx = -1; nx <= 1; nx++) {
         for (int ny = -1; ny <= 1; ny++) {
             if (nx == 0 && ny == 0) continue;
-            
+
             // Get new coord
-            int dx = x + nx;
-            int dy = y + ny;
+            int dx = mod(x + nx, cols);
+            int dy = mod(y + ny, rows);
 
             // Check if is out of borders
-            if (dx < 0 || dx >= cols) continue;
-            if (dy < 0 || dy >= rows) continue;
+            if (dx < 0 || dx >= cols) { printf("Out of X?"); continue; }
+            if (dy < 0 || dy >= rows) { printf("Out of Y?"); continue; }
 
             // Get neighbor index
             int idx = ConwayBoard::GetIndexFromCoord(dx, dy);
