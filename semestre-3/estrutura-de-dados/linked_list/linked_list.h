@@ -16,10 +16,16 @@ typedef struct linked_list_head {
 // Creates a linked list
 linked_list_t *ll_new();
 
+// Frees a linked list and all its current items
+void ll_free(linked_list_t *ll);
+
+// Frees a node, generally used on ll_pop()'d nodes
+void ll_node_free(linked_list_node_t *node);
+
 // Prints a linked a list
 void ll_print(linked_list_t *ll);
 
-// Returns the node at given index
+// Returns the node at given index, or null if invalid
 linked_list_node_t *ll_get_at(linked_list_t *ll, int index);
 
 // Sets the value of node at given index

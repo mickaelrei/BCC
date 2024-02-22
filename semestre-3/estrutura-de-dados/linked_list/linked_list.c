@@ -11,6 +11,50 @@ linked_list_t *ll_new() {
     return ll;
 }
 
+void ll_free(linked_list_t *ll) {
+    if (ll == NULL) return;
+
+    // Check if empty
+    if (ll->first == NULL) {
+        ll->first = NULL;
+        ll->last = NULL;
+        ll->length = 0;
+        free(ll);
+        return;
+    }
+
+    // Free all nodes
+    linked_list_node_t *last = ll->first;
+    linked_list_node_t *current = last->next;
+    while (current != NULL) {
+        last->previous = NULL;
+        last->next = NULL;
+        last->value = 0;
+        free(last);
+        last = current;
+        current = current->next;
+    }
+    // Free last node
+    last->previous = NULL;
+    last->next = NULL;
+    last->value = 0;
+    free(last);
+
+    // Free list
+    ll->first = NULL;
+    ll->last = NULL;
+    ll->length = 0;
+    free(ll);
+}
+
+void ll_node_free(linked_list_node_t *node) {
+    if (node == NULL) return;
+    node->next = NULL;
+    node->previous = NULL;
+    node->value = 0;
+    free(node);
+}
+
 void ll_print(linked_list_t *ll) {
     if (ll == NULL) return;
 
@@ -208,6 +252,8 @@ linked_list_node_t *ll_pop(linked_list_t *ll) {
         ll->last = NULL;
         ll->length = 0;
 
+        last->previous = NULL;
+        last->next = NULL;
         return last;
     }
 
@@ -225,6 +271,7 @@ linked_list_node_t *ll_pop(linked_list_t *ll) {
 
     // Remove references from popped node
     current->previous = NULL;
+    current->next = NULL;
     return current;
 }
 

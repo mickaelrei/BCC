@@ -3,8 +3,10 @@
 
 
 int main(int argc, char **argv) {
+    printf("start\n");
     linked_list_t *ll = ll_new();
 
+    printf("\nappending\n----------\n");
     ll_append(ll, 2);
     ll_append(ll, 4);
     ll_append(ll, 6);
@@ -14,13 +16,6 @@ int main(int argc, char **argv) {
     ll_print(ll);
 
     printf("4 appeared %d times in ll (length: %d)\n", ll_count(ll, 4), ll->length);
-
-    // ll_set_at(ll, 0, -4);
-    // ll_set_at(ll, 1, 502);
-    // ll_set_at(ll, 2, 6);
-    // ll_set_at(ll, 3, 7);
-    // ll_set_at(ll, 4, 0);
-    // ll_set_at(ll, 5, 19);
 
     ll_insert(ll, 2, -50);
     ll_insert(ll, 4, -70);
@@ -57,6 +52,8 @@ int main(int argc, char **argv) {
     linked_list_node_t *last = ll_pop(ll);
     if (last != NULL) {
         printf("popped %d, previous: %p, next: %p\n", last->value, last->previous, last->next);
+        ll_node_free(last);
+        last = NULL;
     } else {
         printf("list was empty!\n");
     }
@@ -70,9 +67,16 @@ int main(int argc, char **argv) {
         linked_list_node_t *node = ll_pop(ll);
         if (node != NULL) {
             printf("popped %d\n", node->value);
+            ll_node_free(node);
+            node = NULL;
         }
         ll_print(ll);
     }
+
+    printf("\nll_free()\n");
+    ll_free(ll);
+    ll = NULL;
+    printf("\nDone\n");
 
     return 0;
 }
