@@ -37,17 +37,32 @@ void ll_append(linked_list_t *ll, int value);
 // Inserts a value at the specified index of a linked list
 void ll_insert(linked_list_t *ll, int index, int value);
 
+// Removes the node at the specified index
+linked_list_node_t *ll_remove(linked_list_t *ll, int index);
+
 // Removes the last node in a linked list
 //
 // Returns the removed node, or null if list was empty
 linked_list_node_t *ll_pop(linked_list_t *ll);
+
+// Clears a linked list
+void ll_clear(linked_list_t *ll);
 
 // Returns how many times a value is in a linked list
 int ll_count(linked_list_t *ll, int value);
 
 // Attempts to find a value in a linked list
 //
-// Returns the found node, or null if not found
-linked_list_node_t *ll_find(linked_list_t *ll, int value);
+// Returns the index of the first occurrence, or -1 if not found
+int ll_find(linked_list_t *ll, int value);
+
+// Attempts to swap two elements at specified indexes
+void ll_swap(linked_list_t *ll, int index0, int index1);
+
+// Swaps value of two given nodes
+void ll_node_swap(linked_list_t *ll, linked_list_node_t *node0, linked_list_node_t *node1);
+
+// Sorts a linked list using selection sort
+void ll_selection_sort(linked_list_t *ll);
 
 #endif // LINKED_LIST_H

@@ -220,60 +220,120 @@ void ll_insert(linked_list_t *ll, int index, int value) {
         }
     }
 
-    // if (current != NULL) {
-        // Connect previous and new nodes
-        current->previous->next = node;
-        node->previous = current->previous;
+    // Connect previous and new nodes
+    current->previous->next = node;
+    node->previous = current->previous;
 
-        // Connect new and current nodes
-        current->previous = node;
-        node->next = current;
+    // Connect new and current nodes
+    current->previous = node;
+    node->next = current;
 
-        // Increase length
-        ll->length++;
-    // }
+    // Increase length
+    ll->length++;
+}
+
+linked_list_node_t *ll_remove(linked_list_t *ll, int index) {
+    if (ll == NULL) return NULL;
+
+    if (index >= ll->length || index < 0) return NULL;
+
+    // Check if first or last
+    if (index == 0) {
+        linked_list_node_t *node = ll->first;
+        ll->first = ll->first->next;
+        // Second value's "previous" needs to be set to null
+        if (ll->first->next != NULL) {
+            ll->first->next->previous = NULL;
+        }
+        node->previous = NULL;
+        node->next = NULL;
+        ll->length--;
+        return node;
+    } else if (index == ll->length - 1) {
+        linked_list_node_t *node = ll->last;
+        ll->last = ll->last->previous;
+        // Second-to-last value's "next" needs to be set to null
+        if (ll->last->previous != NULL) {
+            ll->last->previous->next = NULL;
+        }
+        node->previous = NULL;
+        node->next = NULL;
+        ll->length--;
+        return node;
+    }
+
+    // Check if faster starting from last
+    linked_list_node_t *current;
+    if (index > ll->length / 2) {
+        // Start from last
+        int i = ll->length - 2;
+        current = ll->last->previous;
+        while (i != index) {
+            current = current->previous;
+            i--;
+        }
+    } else {
+        // Start from first
+        int i = 1;
+        current = ll->first->next;
+        while (i != index) {
+            current = current->next;
+            i++;
+        }
+    }
+
+    // Connect previous to next
+    current->previous->next = current->next;
+    current->next->previous = current->previous;
+
+    // Set current references to null
+    current->previous = NULL;
+    current->next = NULL;
+    ll->length--;
+    return current;
 }
 
 linked_list_node_t *ll_pop(linked_list_t *ll) {
     if (ll == NULL) return NULL;
 
     // Check if list is empty
-    if (ll->first == NULL) {
-        return NULL;
-    }
-    
-    // Go to last value
-    linked_list_node_t *last = ll->first;
-    linked_list_node_t *current = last->next;
+    if (ll->first == NULL) return NULL;
 
-    // Check if list has only one value
-    if (current == NULL) {
+    // Check if only one element
+    if (ll->first->next == NULL) {
+        // Get last node
+        linked_list_node_t *node = ll->first;
+        
+        // Change list attributes
         ll->first = NULL;
         ll->last = NULL;
-        ll->length = 0;
+        ll->length--;
 
-        last->previous = NULL;
-        last->next = NULL;
-        return last;
+        return node;        
     }
 
-    while (current->next != NULL) {
-        last = current;
-        current = current->next;
-    }
+    // Get last node
+    linked_list_node_t *last = ll->last;
 
-    // Remove reference to popped node
-    last->next = NULL;
-
-    // Change list attributes
-    ll->last = last;
+    // Remove reference from second-to-last node and set new last
+    last->previous->next = NULL;
+    ll->last = last->previous;
     ll->length--;
 
-    // Remove references from popped node
-    current->previous = NULL;
-    current->next = NULL;
-    return current;
+    // Remove reference from returned node
+    last->previous = NULL;
+    return last;
 }
+
+void ll_clear(linked_list_t *ll) {
+    if (ll == NULL) return;
+
+    while (ll->length > 0) {
+        linked_list_node_t *node = ll_pop(ll);
+        ll_node_free(node);
+    }
+}
+
 
 int ll_count(linked_list_t *ll, int value) {
     if (ll == NULL) return -1;
@@ -291,14 +351,66 @@ int ll_count(linked_list_t *ll, int value) {
     return count;
 }
 
-linked_list_node_t *ll_find(linked_list_t *ll, int value) {
-    if (ll == NULL) return NULL;
+int ll_find(linked_list_t *ll, int value) {
+    if (ll == NULL) return -1;
 
+    int i = 0;
     linked_list_node_t *current = ll->first;
     while (current != NULL) {
-        if (current->value == value) {
-            return current;
-        }
+        if (current->value == value) break;
+
         current = current->next;
+        i++;
+    }
+
+    return i;
+}
+
+void ll_swap(linked_list_t *ll, int index0, int index1) {
+    if (ll == NULL) return;
+
+    // Check if out of bounds or same index
+    if (index0 >= ll->length || index0 < 0 || index1 >= ll->length || index1 < 0 || index0 == index1) return;
+
+    // Get nodes at indexes
+    linked_list_node_t *node0 = ll_get_at(ll, index0);
+    linked_list_node_t *node1 = ll_get_at(ll, index1);
+    if (node0 == NULL || node1 == NULL) return;
+
+    // Swap values
+    int temp = node0->value;
+    node0->value = node1->value;
+    node1->value = temp;
+}
+
+void ll_node_swap(linked_list_t *ll, linked_list_node_t *node0, linked_list_node_t *node1) {
+    if (ll == NULL || node0 == NULL || node1 == NULL) return;
+
+    int temp = node0->value;
+    node0->value = node1->value;
+    node1->value = temp;
+}
+
+void ll_selection_sort(linked_list_t *ll) {
+    if (ll == NULL || ll->length == 0) return;
+
+    // Traverse through list
+    linked_list_node_t *node0 = ll->first;
+    for (int i = 0; i < ll->length; i++) {
+        linked_list_node_t *node1 = node0->next;
+
+        // Min value node
+        linked_list_node_t *node_min = NULL;
+        for (int j = i + 1; j < ll->length; j++) {
+            // Check if less than min node
+            if (node1->value < node0->value) {
+                node_min = node1;
+            }
+            node1 = node1->next;
+        }
+
+        // Swap
+        ll_node_swap(ll, node0, node_min);
+        node0 = node0->next;
     }
 }
