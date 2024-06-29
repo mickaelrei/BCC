@@ -53,7 +53,8 @@ class ConwayBoard:
                     if event.key == K_e:
                         self.update()
             
-            self.update()
+            for i in range(5):
+                self.update()
             self.draw()
 
             pygame.display.update()
