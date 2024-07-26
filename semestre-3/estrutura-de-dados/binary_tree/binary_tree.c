@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "binary_tree.h"
 
@@ -53,9 +54,9 @@ void btree_free(btree_t *btree) {
 }
 
 size_t btree_height(btree_t *btree) {
-    if (btree == NULL) return 0;
+    if (btree == NULL || btree->root == NULL) return 0;
 
-    return node_height(btree->root);
+    return node_height(btree->root) - 1;
 }
 
 void btree_insert(btree_t *btree, int value) {
@@ -201,13 +202,27 @@ void btree_print(btree_t *btree) {
 }
 
 void btree_pretty_print(btree_t *btree) {
-    if (btree == NULL) return;
+    if (btree == NULL || btree->root == NULL) return;
 
-    // const size_t padding = 2;
+    int max = btree_max(btree);
+    size_t height = btree_height(btree);
+    size_t digits = log10(max);
+    digits++;
 
-    // size_t height = btree_height(btree);
+    size_t num_elements_last_line = pow(2, height);
+    size_t last_line_length = num_elements_last_line * 4 - 3;
 
-    printf("TODO...");
+    // Print first line
+    size_t i;
+    for (i = 0; i < last_line_length / 2 - 1; ++i)
+        printf(" ");
+    printf("%d", btree->root->value);
+    for (i = 0; i < last_line_length / 2 - 1; ++i)
+        printf(" ");
+    printf("\n");
+
+    // TODO: Recursively print other lines
+    // node_pretty_print(btree->root); // not implemented
 }
 
 node_t *btree_find(btree_t *btree, int value, node_t **parent) {

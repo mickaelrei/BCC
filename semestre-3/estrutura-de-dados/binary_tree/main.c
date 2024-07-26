@@ -7,14 +7,14 @@ int main() {
     printf("height: %ld\n", btree_height(btree));
     btree_insert(btree, 5);
 
+    btree_insert(btree, 3);
     btree_insert(btree, 1);
     btree_insert(btree, 2);
-    btree_insert(btree, 3);
     btree_insert(btree, 4);
 
+    btree_insert(btree, 8);
     btree_insert(btree, 6);
     btree_insert(btree, 7);
-    btree_insert(btree, 8);
     btree_insert(btree, 9);
     printf("height: %ld\n", btree_height(btree));
 
@@ -29,6 +29,9 @@ int main() {
 
     printf("printing\n");
     btree_print(btree);
+
+    printf("pretty printing\n");
+    btree_pretty_print(btree);
 
     btree_free(btree);
 
