@@ -59,6 +59,26 @@ size_t btree_height(btree_t *btree) {
     return node_height(btree->root) - 1;
 }
 
+void node_insert(node_t *node, node_t *new_node) {
+    if (node == NULL) return;
+
+    if (new_node->value <= node->value) {
+        // Going left
+        if (node->left == NULL) {
+            node->left = new_node;
+        } else {
+            node_insert(node->left, new_node);
+        }
+    } else {
+        // Going right
+        if (node->right == NULL) {
+            node->right = new_node;
+        } else {
+            node_insert(node->right, new_node);
+        }
+    }
+}
+
 void btree_insert(btree_t *btree, int value) {
     if (btree == NULL) return;
 
@@ -68,6 +88,7 @@ void btree_insert(btree_t *btree, int value) {
         return;
     }
 
+    // node_insert(btree->root, new_node);
     node_t *node = btree->root;
     while (1) {
         if (value <= node->value) {
@@ -114,8 +135,10 @@ void btree_delete(btree_t *btree, int value) {
             // Minimum node to right is new root
             node_t *min_parent = NULL;
             node_t *min = node_min(node->right, &min_parent);
+            printf("min is %d\n", min->value);
 
             min->left = node->left;
+            min->right = node->right;
             btree->root = min;
 
             if (min_parent != NULL) {
@@ -157,6 +180,7 @@ void btree_delete(btree_t *btree, int value) {
         node_t *min_parent = NULL;
         node_t *min = node_min(node->right, &min_parent);
         min->left = node->left;
+        min->right = node->right;
 
         if (to_left) {
             parent->left = min;
@@ -311,10 +335,9 @@ node_t *node_min(node_t *node, node_t **parent) {
     if (node == NULL) return NULL;
 
     node_t *parent_p = NULL;
-    node_t *node_n = node;
-    while (node_n->left != NULL) {
-        parent_p = node_n;
-        node_n = node_n->left;
+    while (node->left != NULL) {
+        parent_p = node;
+        node = node->left;
     }
 
     // Set parent output
@@ -322,17 +345,16 @@ node_t *node_min(node_t *node, node_t **parent) {
         *parent = parent_p;
     }
 
-    return node_n;
+    return node;
 }
 
 node_t *node_max(node_t *node, node_t **parent) {
     if (node == NULL) return NULL;
 
     node_t *parent_p = NULL;
-    node_t *node_n = node;
-    while (node_n->right != NULL) {
-        parent_p = node_n;
-        node_n = node_n->right;
+    while (node->right != NULL) {
+        parent_p = node;
+        node = node->right;
     }
 
     // Set parent output
@@ -340,5 +362,5 @@ node_t *node_max(node_t *node, node_t **parent) {
         *parent = parent_p;
     }
 
-    return node_n;
+    return node;
 }
