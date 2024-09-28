@@ -1,6 +1,6 @@
 00000000000i[      ] Bochs x86 Emulator 2.8.devel
 00000000000i[      ]   Built from GitHub snapshot after release 2.8
-00000000000i[      ]   Compiled on Sep 27 2024 at 19:04:14
+00000000000i[      ]   Compiled on Sep 28 2024 at 00:38:41
 00000000000i[      ] System configuration
 00000000000i[      ]   processors: 1 (cores=1, HT threads=1)
 00000000000i[      ]   A20 line support: yes
@@ -34,10 +34,10 @@
 00000000000i[IMG   ] Disk image modules
 00000000000i[IMG   ]   flat concat sparse dll growing undoable volatile vmware3
 00000000000i[IMG   ]   vmware4 vbox vpc vvfat
-00000000000i[MEM0  ] allocated memory at 0x73198ec00010. after alignment, vector=0x73198ec01000, block_size = 128K
+00000000000i[MEM0  ] allocated memory at 0x7856f4e00010. after alignment, vector=0x7856f4e01000, block_size = 128K
 00000000000i[MEM0  ] 32,00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
-00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/home/ifc/usr/share/bochs/BIOS-bochs-latest')
+00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/home/usuario/.bochs/share/bochs/BIOS-bochs-latest')
 00000000000i[DEV   ] will paste characters every 100 iodev timer ticks
 00000000000i[PLUGIN] init_dev of 'pci' plugin device by virtual method
 00000000000i[DEV   ] i440FX PMC present at device 0, function 0
@@ -46,7 +46,7 @@
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] CMOS RTC using realtime synchronisation method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Fri Sep 27 21:31:40   2024 tz=utc (time0=1727472700)
+00000000000i[CMOS  ] Setting initial clock to: Sat Sep 28  0:41:58   2024 tz=utc (time0=1727484118)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -61,8 +61,8 @@
 00000000000i[BXVGA ] VBE Bochs Display Extension Enabled
 00000000000i[XGUI  ] test_alloc_colors: 16 colors available out of 16 colors tried
 00000000000i[XGUI  ] font 8 wide x 16 high, display depth = 24
-00000000000i[XGUI  ] maximum host resolution: x=1920 y=1030
-00000000000i[MEM0  ] rom at 0xc0000/35328 ('/home/ifc/usr/share/bochs/VGABIOS-lgpl-latest.bin')
+00000000000i[XGUI  ] maximum host resolution: x=1440 y=850
+00000000000i[MEM0  ] rom at 0xc0000/35328 ('/home/usuario/.bochs/share/bochs/VGABIOS-lgpl-latest.bin')
 00000000000i[PLUGIN] init_dev of 'floppy' plugin device by virtual method
 00000000000i[DMA   ] channel 2 used by Floppy Drive
 00000000000i[FLOPPY] fd0: 'floppy.img' ro=0, h=2,t=80,spt=18
@@ -84,7 +84,7 @@
 00000000000i[PLUGIN] init_dev of 'unmapped' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'biosdev' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'speaker' plugin device by virtual method
-00000000000e[PCSPK ] Failed to open /dev/console: Permissão negada
+00000000000e[PCSPK ] Failed to open /dev/console: Permission denied
 00000000000e[PCSPK ] Deactivating beep on console
 00000000000i[PLUGIN] init_dev of 'extfpuirq' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'parallel' plugin device by virtual method
@@ -179,60 +179,60 @@
 00000319866i[BIOS  ] Shutdown flag 0
 00000320464i[BIOS  ] ram_size=0x02000000
 00000320896i[BIOS  ] ram_end=32MB
-00000333147i[BIOS  ] Found 1 cpu(s)
-00000347100i[BIOS  ] bios_table_addr: 0x000fa158 end=0x000fcc00
-00000674916i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001002851i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
-00001002875i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
-00001002899i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
-00001002923i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
-00001002933i[P2ISA ] write: ELCR2 = 0x0a
-00001003702i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
-00001017324i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
-00001019668i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
-00001021851i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
-00001022086i[PIDE  ] BAR #4: i/o base address = 0xc000
-00001022702i[BIOS  ] region 4: 0x0000c000
-00001024760i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
-00001025036i[ACPI  ] new IRQ line = 11
-00001025050i[ACPI  ] new IRQ line = 9
-00001025078i[ACPI  ] new PM base address: 0xb000
-00001025092i[ACPI  ] new SM base address: 0xb100
-00001025120i[PCI   ] setting SMRAM control register to 0x4a
-00001189255i[CPU0  ] Enter to System Management Mode
-00001189266i[CPU0  ] RSM: Resuming from System Management Mode
-00001353322i[PCI   ] setting SMRAM control register to 0x0a
-00001379938i[BIOS  ] MP table addr=0x000fa230 MPC table addr=0x000fa160 size=0xc8
-00001381670i[BIOS  ] SMBIOS table addr=0x000fa240
-00001383759i[BIOS  ] ACPI tables: RSDP addr=0x000fa370 ACPI DATA addr=0x01ff0000 size=0xff8
-00001386744i[BIOS  ] Firmware waking vector 0x1ff00cc
-00001388998i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001389728i[BIOS  ] bios_table_cur_addr: 0x000fa394
-00001497363i[VBIOS ] VGABios ID: vgabios.c 2024-06-09
-00001497442i[BXVGA ] VBE known Display Interface b0c0
-00001497482i[BXVGA ] VBE known Display Interface b0c5
-00001498903i[VBIOS ] VBE Bios ID: vbe.c 2024-06-09
-03022565194i[BIOS  ] Booting from 0000:7c00
-03023522470i[CPU0  ] WARNING: HLT instruction with IF=0!
-10278480000i[      ] Ctrl-C detected in signal handler.
-10278480001i[      ] Ctrl-C detected in signal handler.
-10278480001i[CPU0  ] CPU is in real mode (halted)
-10278480001i[CPU0  ] CS.mode = 16 bit
-10278480001i[CPU0  ] SS.mode = 16 bit
-10278480001i[CPU0  ] EFER   = 0x00000000
-10278480001i[CPU0  ] | EAX=60000e20  EBX=00000231  ECX=00090000  EDX=00000000
-10278480001i[CPU0  ] | ESP=0000ffd6  EBP=00000000  ESI=000e0000  EDI=0000ffac
-10278480001i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
-10278480001i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-10278480001i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
-10278480001i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-10278480001i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-10278480001i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-10278480001i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-10278480001i[CPU0  ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-10278480001i[CPU0  ] | EIP=00007c58 (00007c58)
-10278480001i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
-10278480001i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-10278480001i[CMOS  ] Last time: 1727472707 tz=utc (Fri Sep 27 21:31:47   2024)
-10278480001i[XGUI  ] Exit
-10278480001i[SIM   ] quit_sim called with exit code 1
+00000333174i[BIOS  ] Found 1 cpu(s)
+00000347127i[BIOS  ] bios_table_addr: 0x000fa158 end=0x000fcc00
+00000674943i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001002878i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001002902i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001002926i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001002950i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001002960i[P2ISA ] write: ELCR2 = 0x0a
+00001003729i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+00001017351i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001019695i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001021878i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001022113i[PIDE  ] BAR #4: i/o base address = 0xc000
+00001022729i[BIOS  ] region 4: 0x0000c000
+00001024787i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001025063i[ACPI  ] new IRQ line = 11
+00001025077i[ACPI  ] new IRQ line = 9
+00001025105i[ACPI  ] new PM base address: 0xb000
+00001025119i[ACPI  ] new SM base address: 0xb100
+00001025147i[PCI   ] setting SMRAM control register to 0x4a
+00001189282i[CPU0  ] Enter to System Management Mode
+00001189293i[CPU0  ] RSM: Resuming from System Management Mode
+00001353349i[PCI   ] setting SMRAM control register to 0x0a
+00001379965i[BIOS  ] MP table addr=0x000fa230 MPC table addr=0x000fa160 size=0xc8
+00001381697i[BIOS  ] SMBIOS table addr=0x000fa240
+00001383786i[BIOS  ] ACPI tables: RSDP addr=0x000fa370 ACPI DATA addr=0x01ff0000 size=0xff8
+00001386771i[BIOS  ] Firmware waking vector 0x1ff00cc
+00001389025i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001389755i[BIOS  ] bios_table_cur_addr: 0x000fa394
+00001497390i[VBIOS ] VGABios ID: vgabios.c 2024-06-09
+00001497469i[BXVGA ] VBE known Display Interface b0c0
+00001497509i[BXVGA ] VBE known Display Interface b0c5
+00001498930i[VBIOS ] VBE Bios ID: vbe.c 2024-06-09
+02937731681i[BIOS  ] Booting from 0000:7c00
+02938688957i[CPU0  ] WARNING: HLT instruction with IF=0!
+122219212008i[      ] Ctrl-C detected in signal handler.
+122219212008i[      ] dbg: Quit
+122219212008i[CPU0  ] CPU is in real mode (halted)
+122219212008i[CPU0  ] CS.mode = 16 bit
+122219212008i[CPU0  ] SS.mode = 16 bit
+122219212008i[CPU0  ] EFER   = 0x00000000
+122219212008i[CPU0  ] | EAX=60000e20  EBX=00000231  ECX=00090000  EDX=00000000
+122219212008i[CPU0  ] | ESP=0000ffd6  EBP=00000000  ESI=000e0000  EDI=0000ffac
+122219212008i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
+122219212008i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+122219212008i[CPU0  ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
+122219212008i[CPU0  ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+122219212008i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+122219212008i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+122219212008i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+122219212008i[CPU0  ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+122219212008i[CPU0  ] | EIP=00007c58 (00007c58)
+122219212008i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
+122219212008i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+122219212008i[CMOS  ] Last time: 1727484193 tz=utc (Sat Sep 28  0:43:13   2024)
+122219212008i[XGUI  ] Exit
+122219212008i[SIM   ] quit_sim called with exit code 0
