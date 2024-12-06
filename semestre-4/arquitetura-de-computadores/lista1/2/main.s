@@ -15,28 +15,47 @@
 # default entry
 _start:
     # 1
-    mov $1234, %ax
-    add $2345, %ax
+    movb (value), %bl   # Move o valor do label "value" para o bl
 
     # 2
-    mov $250, %al
-    mov $200, %ah
-    mul %ah
+    movb $0x7, (value)  # Move um novo valor para o endereço label "value"
 
     # 3
-    mov $48, %bx
-    mov $35250, %ax
-    div %bx
+    movb $0, %cl        # Contador do loop
+    movw $0, %ax        # Soma dos valores do array
+    movw $array, %si     # "si" contém o endereço do índice atual na memória
 
-    # 4
-    and $0b10011011, %al
-    xor %al, %al
-    or $0b11110101, %al
-    not %al
-    
+loop_sum:
+    cmp $5, %cl         # Se "cl" chegou a 5, acabou o loop
+    je loop_end
+    addb (%si), %al     # Adiciona o valor na posição atual à soma total
+    incb %cl            # Incrementa o contador
+    inc %si             # Incrementa o endereço do índice
+    jmp loop_sum
+
+loop_end:
+    # Print value of "al"
+    movb $0x0e, %ah
+    addb $0x30, %al
+    int $0x10
+
 loop_final:
     hlt
     jmp loop_final
+
+# Single value
+. = _start + 400
+value:
+    .byte 0x9
+
+# Array of 5 numbers
+array:
+    .byte 0x1
+    .byte 0x2
+    .byte 0x3
+    .byte 0x2
+    .byte 0x1
+
 
 # MBR boot signature
 . = _start + 510
