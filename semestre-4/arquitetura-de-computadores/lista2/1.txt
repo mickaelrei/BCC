@@ -1,0 +1,20 @@
+Serviços oferecidos pela interrupção 10h:
+ - configuração de modo de vídeo
+ - posição do cursor
+ - escrever caractere na tela
+ - leitura de um pixel
+ - escrever pixel na tela
+
+O registrador %ah define qual serviço será utilizado, e outros registradores
+como %al, %bx, %cx e %dx passam outros argumentos possivelmente necessários,
+onde o retorno normalmente é armazenado nos mesmos registradores (%ah e %al)
+Exemplo de leitura de pixel:
+ - ah = 0x0D
+ - cx = posição horizontal
+ - dx = posição vertical
+ - retorno no AL: cor em 8 bits
+
+Quando uma instrução de interrupção é encontrada, o processador salva uma
+cópia do estado atual dos registradores/flags na pilha para poder retornar
+ao estado atual após finalizar a interrupção. Registradores de pilha e segmentos
+são utilizados nesse processo.
